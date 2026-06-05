@@ -1,105 +1,28 @@
-<table>
-  <tr>
-    <td width="96">
-      <img src="https://raw.githubusercontent.com/mohu-org/.github/main/assets/mohu.png" alt="Mohu" width="80">
-    </td>
-    <td>
-      <h1>Mohu</h1>
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/mohu-org/.github/main/assets/mohu.png" alt="Mohu" width="220">
+</p>
 
-Rust-native array infrastructure for Python scientific computing.
+# Mohu
 
-Mohu is an early-stage attempt to rebuild the NumPy layer around modern systems primitives: typed buffers, explicit layouts, SIMD kernels, parallel execution, zero-copy exchange, and Python bindings that can interoperate with the existing data and ML ecosystem.
+Mohu is a Rust-powered array project for Python.
 
-The project is being built as a set of small Rust crates instead of one monolith. Each layer owns a narrow part of the stack, from error types and dtype promotion through buffers, ufunc dispatch, indexing, linalg, sparse arrays, I/O, and Python protocols.
+The goal is simple: build a faster, cleaner foundation for numerical computing without asking Python users to leave the ecosystem they already know.
 
-## Architecture
-
-```text
-Python surface
-  mohu-py              PyO3 bindings, NumPy interop, buffer protocol, DLPack
-
-Array API
-  mohu-array           N-dimensional array type
-  mohu-ufunc           broadcast, reduce, accumulate, outer
-  mohu-index           fancy indexing, boolean masks, take/put, where
-  mohu-ops             arithmetic, comparison, logical ops, reductions
-
-Numerics
-  mohu-linalg          matmul, LU, QR, SVD, Cholesky, solvers, eigensystems
-  mohu-fft             FFT, IFFT, RFFT, N-D transforms
-  mohu-random          PCG64, Philox, sampling, distributions
-  mohu-stats           descriptive stats and statistical routines
-  mohu-special         erf, gamma, beta, Bessel, CDF/PPF helpers
-
-Storage and layout
-  mohu-dtype           dtype model, scalar traits, promotion and casting
-  mohu-buffer          aligned allocation, strides, views, DLPack metadata
-  mohu-sparse          COO, CSR, CSC sparse matrices
-  mohu-masked          masked arrays and invalid-value propagation
-  mohu-io              .npy, CSV, Arrow IPC, memory-mapped arrays
-
-Foundation
-  mohu-error           shared error type, error codes, reporting, test helpers
-  mohu-core            facade over the foundation crates
-  mohu-testing         fixtures, approximate assertions, performance helpers
-```
+We are starting from the bottom of the stack: typed memory, array layouts, SIMD kernels, parallel execution, linear algebra, and zero-copy Python interop.
 
 ## Repositories
 
-| Repository | Role |
-| --- | --- |
-| [mohu](https://github.com/mohu-org/mohu) | Main Rust workspace. Owns the layered crate architecture, roadmap, docs, tests, and core implementation. |
-| [mohu-compute](https://github.com/mohu-org/mohu-compute) | Standalone SIMD compute kernels. Usable independently from Mohu array types. |
-| [mohu-linalg](https://github.com/mohu-org/mohu-linalg) | Pure-Rust linear algebra backend with matmul, decompositions, norms, solvers, and eigen routines. |
-| [mohu-py](https://github.com/mohu-org/mohu-py) | Python package surface and PyO3 bindings for zero-copy NumPy-facing workflows. |
+- [mohu](https://github.com/mohu-org/mohu) — main Rust workspace
+- [mohu-compute](https://github.com/mohu-org/mohu-compute) — SIMD compute kernels
+- [mohu-linalg](https://github.com/mohu-org/mohu-linalg) — pure-Rust linear algebra
+- [mohu-py](https://github.com/mohu-org/mohu-py) — Python bindings
 
-## Interop Plan
+## Status
 
-Mohu is designed to meet existing Python libraries where they already are.
+Early. The foundation is still being built.
 
-```text
-mohu-buffer exposes pointer, shape, strides, dtype, device
-  -> Python buffer protocol and __array__
-  -> __array_interface__
-  -> __dlpack__ and __dlpack_device__
-  -> Array API Standard via __array_namespace__
-  -> NumPy dispatch through __array_ufunc__ and __array_function__
-```
-
-That path is meant to unlock zero-copy handoff into NumPy, Pandas, scikit-learn, PyTorch, JAX, CuPy, TensorFlow, and other tools without forcing each library to know about Mohu directly.
-
-## Current Focus
-
-Mohu is pre-release. The active work is the foundation:
-
-- dtype and scalar promotion rules
-- aligned buffers, layouts, strides, and views
-- DLPack-compatible metadata
-- core array shape and slicing behavior
-- broadcast and reduction machinery
-- SIMD and parallel kernel paths
-- Python bindings and NumPy interop
-
-The goal is not a thin wrapper around existing arrays. The goal is a Rust-native array engine with Python ergonomics and standard protocol compatibility.
-
-## Start Here
-
-- Read the main workspace: [mohu](https://github.com/mohu-org/mohu)
-- Review the crate ownership map: [CRATE_MAP.md](https://github.com/mohu-org/mohu/blob/main/CRATE_MAP.md)
-- Check the roadmap: [ROADMAP.md](https://github.com/mohu-org/mohu/blob/main/ROADMAP.md)
-- Contribute through the main repo: [CONTRIBUTING.md](https://github.com/mohu-org/mohu/blob/main/CONTRIBUTING.md)
-
-## Build Principles
-
-- Rust owns memory, layout, dtype, dispatch, and kernels.
-- Python gets a familiar array API, not a second-class wrapper.
-- Interop should be protocol-based and zero-copy where possible.
-- Standalone crates should remain useful outside the full Mohu stack.
-- Performance work should be measured with benchmarks, not asserted.
+If you care about Rust, Python, arrays, scientific computing, or replacing old numerical plumbing with something better, start with [mohu](https://github.com/mohu-org/mohu).
 
 ## License
 
-Mohu projects are released under the MIT License.
+MIT
