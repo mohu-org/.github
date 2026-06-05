@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="../assets/mohu.png" alt="mohu" width="160">
+  <img src="https://raw.githubusercontent.com/mohu-org/.github/main/assets/mohu.png" alt="mohu" width="160">
 </p>
 
 # Mohu
